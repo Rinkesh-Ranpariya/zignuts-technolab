@@ -53,7 +53,7 @@ const Login = () => {
         <div className="max-[768px]:hidden flex-1 bg-[#FFFEF9]"></div>
       </div>
 
-      <div className="relative bg-white rounded-3xl p-9 max-[426px]:px-5 max-[426px]:py-10 mx-5 max-w-lg w-full shadow-lg">
+      <div className="relative bg-white rounded-3xl p-9 max-[426px]:px-5 max-[426px]:py-10 mx-5 max-w-xl w-full shadow-lg">
         <div className="max-[768px]:hidden">
           <div className="absolute top-20 -left-[200px] w-[200px]">
             <img src={loginImage1} alt="loginImage1" />
@@ -134,7 +134,7 @@ const Login = () => {
 
           <button
             type="submit"
-            className="text-sm my-6 py-3 w-full rounded-lg bg-[#E48700] text-white cursor-pointer max-[426px]:mb-0"
+            className="text-sm my-3 py-3 w-full rounded-lg bg-[#E48700] text-white cursor-pointer max-[426px]:mb-0"
           >
             Sign in
           </button>
@@ -144,10 +144,9 @@ const Login = () => {
           OR
         </div>
 
-        <div className="text-sm flex justify-between items-center gap-2 mt-6 max-[426px]:hidden">
-          <div className="flex gap-4 justify-center items-center bg-[#FFF4E3] p-3 max-w-60 w-full rounded-lg cursor-pointer">
+        <div className="text-sm flex justify-center items-center gap-2 mt-3 max-[426px]:hidden">
+          <div className="flex justify-center items-center bg-[#F6F6F6] p-3 rounded-lg cursor-pointer">
             <img src={googleLogo} alt="google-logo" />
-            <div className="text-[#B87514]">Sign with google</div>
           </div>
           <div className="flex justify-center items-center bg-[#F6F6F6] p-3 rounded-lg cursor-pointer">
             <img src={facebookLogo} alt="facebook-logo" />

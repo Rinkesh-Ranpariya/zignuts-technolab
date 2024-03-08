@@ -11,6 +11,10 @@ import loginImage1 from "../assets/images/loginImage1.png";
 import loginImage2 from "../assets/images/loginImage2.png";
 import { TextField } from "@mui/material";
 
+const getCharacterValidationError = (str) => {
+  return `your password must have at least 1 ${str} character`;
+};
+
 const Signup = () => {
   const isLoading = useCheckAuth();
   const navigate = useNavigate();
@@ -37,11 +41,20 @@ const Signup = () => {
             "contact number is not valid"
           )
           .required("contact number is required"),
-        password: yup.string().required("password is required"),
+        password: yup
+          .string()
+          .required("password is required")
+          // check minimum characters
+          .min(8, "password must have at least 8 characters")
+          // different error messages for different requirements
+          .matches(/[0-9]/, getCharacterValidationError("digit"))
+          .matches(/[a-z]/, getCharacterValidationError("lowercase"))
+          .matches(/[A-Z]/, getCharacterValidationError("uppercase"))
+          .matches(/[^A-Za-z0-9]/, getCharacterValidationError("special")),
         confirmPassword: yup
           .string()
-          .oneOf([yup.ref("password"), null], "passwords must match")
-          .required("confirm password is required"),
+          .oneOf([yup.ref("password"), null], "passwords does not match")
+          .required("please re-type your password"),
       }),
       onSubmit: (values) => {
         const { payload: isUserAdded } = dispatch(
@@ -72,7 +85,7 @@ const Signup = () => {
         <div className="max-[768px]:hidden flex-1 bg-[#FFFEF9]"></div>
       </div>
 
-      <div className="relative bg-white rounded-3xl p-9 max-[426px]:px-5 max-[426px]:py-10 mx-5 max-w-lg w-full shadow-lg">
+      <div className="relative bg-white rounded-3xl p-9 max-[426px]:px-5 max-[426px]:py-10 mx-5 max-w-xl w-full shadow-lg">
         <div className="max-[768px]:hidden">
           <div className="absolute top-20 -left-[200px] w-[200px]">
             <img src={loginImage1} alt="loginImage1" />
@@ -98,21 +111,41 @@ const Signup = () => {
         <div className="text-4xl mb-8 font-semibold">Sign up</div>
 
         <form onSubmit={handleSubmit}>
-          <div className="my-2">
-            <div className="mb-2 text-sm">Enter your email address</div>
-            <TextField
-              size="small"
-              className="w-full"
-              type="email"
-              name="email"
-              id="email"
-              variant="outlined"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.email}
-            />
-            <div className="h-4 text-xs text-red-500">
-              {touched.email ? errors.email : ""}
+          <div className="flex my-2 gap-4">
+            <div className="flex-1">
+              <div className="mb-2 text-sm">Enter your email address</div>
+              <TextField
+                size="small"
+                className="w-full"
+                type="email"
+                name="email"
+                id="email"
+                variant="outlined"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.email}
+              />
+              <div className="h-4 text-xs text-red-500">
+                {touched.email ? errors.email : ""}
+              </div>
+            </div>
+
+            <div className="flex-1">
+              <div className="mb-2 text-sm">Contact number</div>
+              <TextField
+                size="small"
+                className="w-full"
+                type="tel"
+                name="contactNumber"
+                id="contactNumber"
+                variant="outlined"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.contactNumber}
+              />
+              <div className="h-4 text-xs text-red-500">
+                {touched.contactNumber ? errors.contactNumber : ""}
+              </div>
             </div>
           </div>
 
@@ -151,24 +184,6 @@ const Signup = () => {
               <div className="h-4 text-xs text-red-500">
                 {touched.lastName ? errors.lastName : ""}
               </div>
-            </div>
-          </div>
-
-          <div className="my-2">
-            <div className="mb-2 text-sm">Contact number</div>
-            <TextField
-              size="small"
-              className="w-full"
-              type="tel"
-              name="contactNumber"
-              id="contactNumber"
-              variant="outlined"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.contactNumber}
-            />
-            <div className="h-4 text-xs text-red-500">
-              {touched.contactNumber ? errors.contactNumber : ""}
             </div>
           </div>
 
@@ -212,7 +227,7 @@ const Signup = () => {
 
           <button
             type="submit"
-            className="text-sm mt-2 py-3 w-full rounded-lg bg-[#E48700] text-white cursor-pointer"
+            className="text-sm mt-5 py-3 w-full rounded-lg bg-[#E48700] text-white cursor-pointer"
           >
             Sign up
           </button>

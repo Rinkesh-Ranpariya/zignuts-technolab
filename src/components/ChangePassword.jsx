@@ -6,6 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { updatePassword } from "../store/usersManagement/usersManagementSlice";
 import { toastHandler } from "../utils/toast";
 
+const getCharacterValidationError = (str) => {
+  return `your password must have at least 1 ${str} character`;
+};
+
 const ChangePassword = () => {
   const dispatch = useDispatch();
 
@@ -20,11 +24,20 @@ const ChangePassword = () => {
       },
       validationSchema: yup.object().shape({
         currentPassword: yup.string().required("current password is required"),
-        newPassword: yup.string().required("new password is required"),
+        newPassword: yup
+          .string()
+          .required("new password is required")
+          // check minimum characters
+          .min(8, "password must have at least 8 characters")
+          // different error messages for different requirements
+          .matches(/[0-9]/, getCharacterValidationError("digit"))
+          .matches(/[a-z]/, getCharacterValidationError("lowercase"))
+          .matches(/[A-Z]/, getCharacterValidationError("uppercase"))
+          .matches(/[^A-Za-z0-9]/, getCharacterValidationError("special")),
         confirmPassword: yup
           .string()
-          .oneOf([yup.ref("newPassword"), null], "new passwords must match")
-          .required("confirm password is required"),
+          .oneOf([yup.ref("newPassword"), null], "passwords does not match")
+          .required("please re-type your password"),
       }),
       onSubmit: (values, { resetForm }) => {
         const { currentPassword, newPassword } = values;
