@@ -70,7 +70,7 @@ function Navbar() {
   ];
 
   return (
-    <AppBar position="static">
+    <AppBar position="fixed">
       <Container maxWidth="xl" className="bg-[#124076] !p-0">
         <Toolbar>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />

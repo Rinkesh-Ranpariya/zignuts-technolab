@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
   return (
     <div className="flex flex-col h-full">
       <Navbar />
-      <Container maxWidth="xl" className="flex-1 my-10">
+      <Container maxWidth="xl" className="flex-1 mt-28 mb-10">
         {children}
       </Container>
       <Footer />
