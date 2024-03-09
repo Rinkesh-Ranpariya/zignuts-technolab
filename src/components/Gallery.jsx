@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 
 const Gallery = ({ productInfo }) => {
-  const { thumbnail, images = [] } = productInfo;
+  const { images = [] } = productInfo;
 
-  const [currentImage, setCurrentImage] = useState(thumbnail);
+  const [currentImage, setCurrentImage] = useState(images[0]);
   const [allImages, setAllImages] = useState([]);
 
   useEffect(() => {
-    setCurrentImage(thumbnail);
     setAllImages(images);
   }, [productInfo]);
 
@@ -22,17 +21,25 @@ const Gallery = ({ productInfo }) => {
           <img src={currentImage} alt="product" />
         </div>
 
-        <div className="flex flex-wrap thumbnails">
+        <div className="flex flex-wrap items-center gap-5">
           {allImages.map((th, index) => {
             return (
               <div
-                className="img-holder"
+                className={`${
+                  th === currentImage
+                    ? "rounded-xl border-4 border-sky-500"
+                    : ""
+                } w-16 md:w-24 h-16 md:h-24`}
                 key={index}
                 onClick={(e) => {
                   handleClick(index);
                 }}
               >
-                <img src={th} alt={`product-${index + 1}`} />
+                <img
+                  src={th}
+                  alt={`product-${index + 1}`}
+                  className="cursor-pointer rounded-xl h-full"
+                />
               </div>
             );
           })}
