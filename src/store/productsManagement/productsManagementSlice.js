@@ -37,20 +37,13 @@ const initialState = {
   loading: false,
   productsInfo: {},
   error: "",
+  productInfo: {},
 };
 
 export const productsManagementSlice = createSlice({
   name: "products management",
   initialState,
-  reducers: {
-    getProductsByProductIds: (state, action) => {
-      // const { payload } = action;
-      // const products = state.allProducts.filter((prod) =>
-      //   payload.includes(prod.productId)
-      // );
-      // action.payload = JSON.parse(JSON.stringify(products));
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getProducts.pending, (state) => {
       state.loading = true;
@@ -63,8 +56,18 @@ export const productsManagementSlice = createSlice({
       state.loading = false;
       state.error = "Network Error !!!";
     });
+    builder.addCase(getProductById.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getProductById.fulfilled, (state, action) => {
+      state.loading = false;
+      state.productInfo = action.payload;
+    });
+    builder.addCase(getProductById.rejected, (state) => {
+      state.loading = false;
+      state.error = "Network Error !!!";
+    });
   },
 });
 
-export const { getProductsByProductIds } = productsManagementSlice.actions;
 export default productsManagementSlice.reducer;

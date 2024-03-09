@@ -23,7 +23,7 @@ export const usersManagementSlice = createSlice({
         action.payload = false;
       }
     },
-    updateUserInfo: (state, action) => {
+    updateProfileData: (state, action) => {
       const isUserExist = state.allUsers
         .filter((user) => user.userId !== action.payload.userId)
         .find((user) => user.email === action.payload.email);
@@ -63,6 +63,6 @@ export const usersManagementSlice = createSlice({
   },
 });
 
-export const { addUser, updateUserInfo, updatePassword } =
+export const { addUser, updateProfileData, updatePassword } =
   usersManagementSlice.actions;
 export default usersManagementSlice.reducer;

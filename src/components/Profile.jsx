@@ -3,8 +3,9 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import { Button, TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUserInfo } from "../store/usersManagement/usersManagementSlice";
+import { updateProfileData } from "../store/usersManagement/usersManagementSlice";
 import { toastHandler } from "../utils/toast";
+import { updateUserInfo } from "../store/user/userSlice";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -39,9 +40,10 @@ const Profile = () => {
         .required("contact number is required"),
     }),
     onSubmit: (values) => {
-      const { payload } = dispatch(updateUserInfo(values));
+      const { payload } = dispatch(updateProfileData(values));
       if (payload) {
         toastHandler("User info updated!", "success");
+        dispatch(updateUserInfo(values));
       } else {
         toastHandler("User already exist!", "error");
       }

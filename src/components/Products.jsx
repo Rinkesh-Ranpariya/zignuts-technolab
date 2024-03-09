@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   Card,
-  CardActions,
   CardContent,
   Grid,
   Pagination,
+  Rating,
   Skeleton,
   Typography,
 } from "@mui/material";
@@ -27,7 +27,18 @@ const Loading = () => {
             <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
             <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
             <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
-            <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+            <div className="flex gap-2">
+              <Skeleton
+                className="flex-1"
+                variant="text"
+                sx={{ fontSize: "2rem" }}
+              />
+              <Skeleton
+                className="flex-1"
+                variant="text"
+                sx={{ fontSize: "2rem" }}
+              />
+            </div>
           </div>
         </Grid>
       ))}
@@ -78,31 +89,34 @@ const Products = () => {
                       <div className="h-56">
                         <img src={prod.thumbnail} className="w-full h-full" />
                       </div>
-                      <CardContent>
+                      <CardContent className="!pb-3">
                         <Typography gutterBottom variant="h6" component="div">
                           {prod.title}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {prod.category}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                           {prod.brand}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          {prod.rating}
+                          {prod.category}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          $ {prod.price}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {prod.discountPercentage}
-                        </Typography>
+                        <div className="flex justify-between my-2">
+                          <p className="font-bold">${prod.price}</p>
+                          <p>{prod.discountPercentage}%</p>
+                        </div>
+
+                        <div className="flex justify-between items-center">
+                          <Button variant="contained" size="small">
+                            <AddShoppingCartIcon />
+                          </Button>
+
+                          <Rating
+                            className="px-4"
+                            name="read-only"
+                            value={prod.rating}
+                            readOnly
+                          />
+                        </div>
                       </CardContent>
-                      <CardActions>
-                        <Button variant="contained" size="small">
-                          <AddShoppingCartIcon />
-                        </Button>
-                      </CardActions>
                     </Card>
                   </Grid>
                 ))}
