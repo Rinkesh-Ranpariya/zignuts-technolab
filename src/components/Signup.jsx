@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
+import bcrypt from "bcryptjs";
 import { addUser } from "../store/usersManagement/usersManagementSlice";
 import { toastHandler } from "../utils/toast";
 import useCheckAuth from "../customHooks/useCheckAuth";
@@ -57,9 +58,14 @@ const Signup = () => {
           .required("please re-type your password"),
       }),
       onSubmit: (values) => {
-        const { payload: isUserAdded } = dispatch(
-          addUser({ ...values, userId: `userId-${uuidv4()}` })
-        );
+        const hashedPassword = bcrypt.hashSync(values.password, 10);
+        const userInfo = {
+          ...values,
+          password: hashedPassword,
+          userId: `userId-${uuidv4()}`,
+        };
+        delete userInfo.confirmPassword;
+        const { payload: isUserAdded } = dispatch(addUser(userInfo));
         if (isUserAdded) {
           toastHandler(
             "Thanks for signing up. Your account has been created.",
@@ -113,7 +119,7 @@ const Signup = () => {
         <form onSubmit={handleSubmit}>
           <div className="flex my-2 gap-4">
             <div className="flex-1">
-              <div className="mb-2 text-sm">Enter your email address</div>
+              <div className="mb-2 text-sm">Email address</div>
               <TextField
                 size="small"
                 className="w-full"
@@ -189,7 +195,7 @@ const Signup = () => {
 
           <div className="flex my-2 gap-4">
             <div className="flex-1">
-              <div className="mb-2 text-sm">Enter your password</div>
+              <div className="mb-2 text-sm">Password</div>
               <TextField
                 size="small"
                 className="w-full"

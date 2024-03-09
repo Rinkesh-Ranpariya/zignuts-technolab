@@ -110,7 +110,6 @@ const Products = () => {
                           </Button>
 
                           <Rating
-                            className="px-4"
                             name="read-only"
                             value={prod.rating}
                             readOnly

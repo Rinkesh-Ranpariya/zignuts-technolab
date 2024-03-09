@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import bcrypt from "bcryptjs";
 
 const storedUsers = localStorage.getItem("AppUsers");
 
@@ -46,10 +47,18 @@ export const usersManagementSlice = createSlice({
       const userExist = state.allUsers.find(
         (user) => user.userId === action.payload.userId
       );
-      if (userExist && userExist.password === action.payload.currentPassword) {
+      const isValidPassword = bcrypt.compareSync(
+        action.payload.currentPassword,
+        userExist.password
+      );
+      if (userExist && isValidPassword) {
         const userList = state.allUsers.map((user) => {
           if (user.userId === action.payload.userId) {
-            return { ...user, password: action.payload.newPassword };
+            const hashedPassword = bcrypt.hashSync(
+              action.payload.newPassword,
+              10
+            );
+            return { ...user, password: hashedPassword };
           }
           return user;
         });

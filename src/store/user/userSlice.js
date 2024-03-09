@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+import bcrypt from "bcryptjs";
 
 const initialState = {
   isAuthenticated: false,
   userInfo: {
     email: "",
-    name: "",
+    firstName: "",
+    lastName: "",
     contactNumber: "",
     password: "",
   },
@@ -20,7 +22,11 @@ export const userSlice = createSlice({
     login: (state, action) => {
       const { values, allUsers } = action.payload;
       const userData = allUsers.find((user) => user.email === values.email);
-      if (userData && userData.password === values.password) {
+      const isValidPassword = bcrypt.compareSync(
+        values.password,
+        userData.password
+      );
+      if (userData.email && isValidPassword) {
         state.isAuthenticated = true;
         state.userInfo = userData;
         localStorage.setItem("userToken", values.email);

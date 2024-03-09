@@ -21,15 +21,12 @@ const Loading = () => {
       </div>
 
       <div className="flex-1">
-        <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
-        <Skeleton variant="rectangular" height={100} />
-        <Skeleton variant="text" sx={{ fontSize: "3rem" }} />
-        <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
-        <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
-        <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
-        <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
-        <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
-        <Skeleton variant="rectangular" height={70} />
+        <Skeleton className="mb-2" variant="rectangular" height={50} />
+        <Skeleton className="mb-2" variant="rectangular" height={100} />
+        <Skeleton className="mb-2" variant="rectangular" height={50} />
+        <Skeleton variant="text" sx={{ fontSize: "2rem" }} />
+        <Skeleton variant="text" sx={{ fontSize: "2rem" }} />
+        <Skeleton variant="text" sx={{ fontSize: "2rem" }} />
         <div className="flex gap-2 mt-2">
           <Skeleton className="flex-1" variant="rectangular" height={50} />
           <Skeleton className="flex-1" variant="rectangular" height={50} />
